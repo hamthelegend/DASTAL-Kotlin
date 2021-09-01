@@ -1,12 +1,18 @@
 package extensions
 
-fun <T> Array<T>.print(arrayName: String) {
-    for ((index, element) in this.withIndex()) {
-        println("$arrayName[$index] = $element")
+fun <T> Array<T>.print(arrayName: String = "array", range: IntRange? = null) {
+    if (range == null) {
+        for ((index, element) in this.withIndex()) {
+            println("$arrayName[$index] = $element")
+        }
+    } else {
+        for (index in range) {
+            println("$arrayName[$index] = ${this[index]}")
+        }
     }
 }
 
-fun getArrayFromUser(arrayName: String): Array<Int> {
+fun getArrayFromUser(arrayName: String = "array"): Array<Int> {
     while (true) {
         try {
             print("Enter the number of elements in the $arrayName: ")
