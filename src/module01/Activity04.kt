@@ -3,6 +3,13 @@ package module01
 import extensions.getArrayFromUser
 import extensions.print
 
+/*
+To run this program in command line, run these two commands:
+kotlinc -include-runtime -d activity04.jar src/module01/Activity04.kt src/extensions/Extensions.kt
+java -jar activity04.jar
+Note: make sure you have the latest Kotlin compiler installed
+ */
+
 fun main() {
     val array1Name = "array1"
     val array1 = getArrayFromUser(array1Name)
