@@ -6,7 +6,7 @@ import java.math.BigInteger
 /*
 To run this program in command line, run these two commands:
 kotlinc -include-runtime -d mod02-activity02.jar src/module02/Activity02.kt
-java -jar activity04.jar
+java -jar mod02-activity02.jar
 Note: make sure you have the latest Kotlin compiler installed
 
 Note: There are no integer size limits since I used Java's BigInteger class.
