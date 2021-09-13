@@ -56,7 +56,8 @@ fun printPascalsTriangle(rows: Int) {
         println()
     }
     println()
-    println("In case your console had trouble showing the output, you could choose to write the output to a file.")
+    println("In case your console had trouble showing the output (especially for really large triangles), " +
+            "you could choose to write the output to a file.")
     print("Do you want to export it as a .csv file? Type yes/no: ")
     val response = readLine()!!.trim().lowercase()
     when (response) {
