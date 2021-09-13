@@ -33,54 +33,60 @@ fun main() {
 }
 
 fun printPascalsTriangle(rows: Int) {
-    val triangle = mutableListOf(mutableListOf(BigInteger.ONE))
-    for (rowIndex in 0 until rows - 1) {
-        val row = mutableListOf(BigInteger.ONE)
-        for (numberIndex in 0 until triangle[rowIndex].lastIndex) {
-            val addendA = triangle[rowIndex][numberIndex]
-            val addendB = triangle[rowIndex][numberIndex + 1]
-            val sum = addendA + addendB
-            row.add(sum)
+    if (rows >= 1) {
+        val triangle = mutableListOf(mutableListOf(BigInteger.ONE))
+        for (rowIndex in 0 until rows - 1) {
+            val row = mutableListOf(BigInteger.ONE)
+            for (numberIndex in 0 until triangle[rowIndex].lastIndex) {
+                val addendA = triangle[rowIndex][numberIndex]
+                val addendB = triangle[rowIndex][numberIndex + 1]
+                val sum = addendA + addendB
+                row.add(sum)
+            }
+            row.add(BigInteger.ONE)
+            triangle.add(row)
         }
-        row.add(BigInteger.ONE)
-        triangle.add(row)
-    }
 
-    val largestNumber = triangle.last()[triangle.last().size / 2]
-    val spaceWidth = largestNumber.toString().length + 1
+        val largestNumber = triangle.last()[triangle.last().size / 2]
+        val spaceWidth = largestNumber.toString().length + 1
 
-    for (row in triangle) {
-        for (number in row) {
-            print(number.toString().padEnd(spaceWidth))
+        for (row in triangle) {
+            for (number in row) {
+                print(number.toString().padEnd(spaceWidth))
+            }
+            println()
         }
         println()
-    }
-    println()
-    println("In case your console had trouble showing the output (especially for really large triangles), " +
-            "you could choose to write the output to a file.")
-    print("Do you want to export it as a .csv file? Type yes/no: ")
-    val response = readLine()!!.trim().lowercase()
-    when (response) {
-        "yes", "y" -> {
-            println("Writing file...")
-            val fileName = "activity_02_output.csv"
-            val file = File(fileName)
-            file.writeText("")
-            for (row in triangle) {
-                val stringBuilder = StringBuilder("")
-                for (number in row) {
-                    stringBuilder.append("$number,")
+        println(
+            "In case your console had trouble showing the output (especially for really large triangles), " +
+                    "you could choose to write the output to a file."
+        )
+        print("Do you want to export it as a .csv file? Type yes/no: ")
+        val response = readLine()!!.trim().lowercase()
+        when (response) {
+            "yes", "y" -> {
+                println("Writing file...")
+                val fileName = "activity_02_output.csv"
+                val file = File(fileName)
+                file.writeText("")
+                for (row in triangle) {
+                    val stringBuilder = StringBuilder("")
+                    for (number in row) {
+                        stringBuilder.append("$number,")
+                    }
+                    stringBuilder.append("\n")
+                    file.appendText(stringBuilder.toString())
                 }
-                stringBuilder.append("\n")
-                file.appendText(stringBuilder.toString())
+                println("$fileName created. You could use a spreadsheet program to view it in columns.")
             }
-            println("$fileName created. You could use a spreadsheet program to view it in columns.")
+            "no", "n" -> {
+                println("Okay.")
+            }
+            else -> {
+                println("Sorry, I don't know what you mean.")
+            }
         }
-        "no", "n" -> {
-            println("Okay.")
-        }
-        else -> {
-            println("Sorry, I don't know what you mean.")
-        }
+    } else {
+        println("Oh. Okay, then. Bye!")
     }
 }
