@@ -1,5 +1,12 @@
 package module02
 
+/*
+To run this program in command line, run these two commands:
+kotlinc -include-runtime -d mod02-exercise01.jar src/module02/Exercise01.kt
+java -jar mod02-exercise01.jar
+Note: make sure you have the latest Kotlin compiler installed
+ */
+
 typealias Matrix = Array<Array<Int>>
 
 class IllegalMatrixArgumentSizeException(requiredArgumentSize: Int) :
