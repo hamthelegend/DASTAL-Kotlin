@@ -5,16 +5,21 @@ class DoublyLinkedListIndexOutOfBoundsException(index: Int, size: Int) : IndexOu
             "DoublyLinkedList with the size of $size."
 )
 
-class ElementNotFoundException(element: String): Exception("Cannot find element $element")
+class ElementNotFoundException(element: String) : Exception("Cannot find element $element")
 
 data class DoublyLinkedListNode<T> internal constructor(
     var previous: Node<T>?,
     var value: T,
     var next: Node<T>?
-)
+) {
+    override fun toString() = "previous = ${previous?.value}; current = $value; next = ${next?.value}"
+}
 
 internal typealias Node<T> = DoublyLinkedListNode<T>
 
+/**
+ * A personal implementation of the DoublyLinkedList data structure
+ */
 class DoublyLinkedList<T> {
 
     private var head: Node<T>? = null
@@ -33,8 +38,8 @@ class DoublyLinkedList<T> {
         tail = firstNode
     }
 
-    private fun getNode(index: Int): Node<T> {
-        if (index < 0 || index >= _size) throw DoublyLinkedListIndexOutOfBoundsException(index, size)
+    private fun getNodeAt(index: Int): Node<T> {
+        if (index !in 0..lastIndex) throw DoublyLinkedListIndexOutOfBoundsException(index, size)
         return if (index <= _size / 2) {
             var node = head!!
             repeat(index) {
@@ -52,52 +57,87 @@ class DoublyLinkedList<T> {
 
     private fun getNode(element: T): Node<T> {
         var node = head!!
-        while(node.next != null) {
+        while (node.next != null) {
             node = node.next!!
             if (node.value == element) return node
         }
         throw ElementNotFoundException(element.toString())
     }
 
-    operator fun get(index: Int) = getNode(index).value
+    /**
+     * Gets the element at the given [index]
+     */
+    operator fun get(index: Int) = getNodeAt(index).value
 
+    /**
+     * Adds an element to the end of the linked list
+     */
     fun add(element: T) {
-        addAt(size, element)
+        add(size, element)
     }
 
-    fun addAt(index: Int, element: T) {
-        if (index >= 0) {
-            if (index == size) {
-                val nodeBeforeIndex = getNode(index - 1)
-                val newNode = Node(nodeBeforeIndex, element, nodeBeforeIndex.next)
-                nodeBeforeIndex.next = newNode
-                nodeBeforeIndex.next?.previous = newNode
+    /**
+     * Adds the [element] to the given [index] of the linked list
+     */
+    fun add(index: Int, element: T) {
+        if (index == 0) {
+            if (size == 0) initialize(element)
+            else {
+                val nodeAtIndex = getNodeAt(index)
+                val newNode = Node(null, element, nodeAtIndex)
+                nodeAtIndex.previous = newNode
+                head = newNode
             }
+        }
+        else if (index in 1..size) {
+            val nodeBeforeIndex = getNodeAt(index - 1)
+            val newNode = Node(nodeBeforeIndex, element, nodeBeforeIndex.next)
+            nodeBeforeIndex.next?.previous = newNode
+            nodeBeforeIndex.next = newNode
+            if (index == size) tail = newNode
         } else throw DoublyLinkedListIndexOutOfBoundsException(index, size)
+        _size++
     }
 
+    /**
+     * Removes the first instance of the [element] in the linked list.
+     * @returns true if the element was found and removal was successful and false if otherwise.
+     */
     fun remove(element: T): Boolean {
         return try {
             val node = getNode(element)
             node.previous?.next = node.next
             node.next?.previous = node.previous
+            if (node.next == null) tail = node.previous
+            _size--
             true
         } catch (e: ElementNotFoundException) {
             return false
         }
     }
 
+    /**
+     * Removes the element at the given [index].
+     * @returns the element that was removed.
+     */
     fun removeAt(index: Int): T {
-        val node = getNode(index)
+        val node = getNodeAt(index)
         node.previous?.next = node.next
         node.next?.previous = node.previous
+        if (node.next == null) tail = node.previous
+        _size--
         return node.value
     }
 
+    /**
+     * @returns a String that represents the whole linked list.
+     */
     override fun toString(): String {
         val stringBuilder = StringBuilder("[")
+        var node = head
         for (i in indices) {
-            stringBuilder.append(get(i))
+            stringBuilder.append(node?.value)
+            node = node?.next
             if (i != lastIndex) {
                 stringBuilder.append(", ")
             }
@@ -106,8 +146,20 @@ class DoublyLinkedList<T> {
         return stringBuilder.toString()
     }
 
+    /**
+     * Prints every node and how they're linked.
+     */
+    fun printLinks() {
+        for (i in indices) {
+            println(getNodeAt(i))
+        }
+    }
+
 }
 
+/**
+ * Creates a [DoublyLinkedList] with the given [elements]
+ */
 fun <T> doublyLinkedListOf(vararg elements: T): DoublyLinkedList<T> {
     val doublyLinkedList = DoublyLinkedList<T>()
     for (element in elements) {
