@@ -124,7 +124,8 @@ class DoublyLinkedList<T> {
         val node = getNodeAt(index)
         node.previous?.next = node.next
         node.next?.previous = node.previous
-        if (node.next == null) tail = node.previous
+        if (node.next == null) tail = node.previous // If the tail was deleted, make the previous node the new tail
+        if (node.previous == null) head = node.next // If the head was deleted, make the next node the new head
         _size--
         return node.value
     }
