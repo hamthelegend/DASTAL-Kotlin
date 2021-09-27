@@ -7,7 +7,7 @@ To run this program in command line, run these two commands:
 kotlinc -include-runtime -d mod03-activity01.jar src/module03/Activity01.kt src/extensions/doublylinkedlist/DoublyLinkedList.kt
 java -jar mod03-activity01.jar
 Note: make sure you have the latest Kotlin compiler and JRE installed
- */
+*/
 
 fun main() {
     val linkedList = doublyLinkedListOf<String>()

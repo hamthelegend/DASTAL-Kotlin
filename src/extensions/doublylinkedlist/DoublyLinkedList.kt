@@ -65,7 +65,7 @@ class DoublyLinkedList<T> {
     }
 
     /**
-     * Gets the element at the given [index]
+     * @returns the element at the given [index]
      */
     operator fun get(index: Int) = getNodeAt(index).value
 
