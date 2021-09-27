@@ -56,10 +56,10 @@ class DoublyLinkedList<T> {
     }
 
     private fun getNode(element: T): Node<T> {
-        var node = head!!
-        while (node.next != null) {
-            node = node.next!!
+        var node = head
+        while (node != null) {
             if (node.value == element) return node
+            node = node.next
         }
         throw ElementNotFoundException(element.toString())
     }
