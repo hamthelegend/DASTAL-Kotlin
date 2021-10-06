@@ -70,6 +70,19 @@ class DoublyLinkedList<T> {
     operator fun get(index: Int) = getNodeAt(index).value
 
     /**
+     * @returns the index of the element
+     * @throws ElementNotFoundException if the element is nto in the list
+     */
+    fun indexOf(element: T): Int {
+        var node = head
+        for (index in 0..lastIndex) {
+            if (node?.value == element) return index
+            node = node?.next
+        }
+        throw ElementNotFoundException(element.toString())
+    }
+
+    /**
      * Adds an element to the end of the linked list
      */
     fun add(element: T) {

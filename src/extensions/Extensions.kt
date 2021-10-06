@@ -30,3 +30,6 @@ fun getArrayFromUser(arrayName: String = "array"): Array<Int> {
         }
     }
 }
+
+fun String.find(regex: Regex) = regex.find(this)?.value
+fun String.findAll(regex: Regex) = regex.findAll(this).map { it.value }.toList()
