@@ -7,15 +7,15 @@ class DoublyLinkedListIndexOutOfBoundsException(index: Int, size: Int) : IndexOu
 
 class ElementNotFoundException(element: String) : Exception("Cannot find element $element")
 
+internal typealias Node<T> = DoublyLinkedListNode<T>
+
 data class DoublyLinkedListNode<T> internal constructor(
-    var previous: Node<T>?,
-    var value: T,
-    var next: Node<T>?
+    internal var previous: Node<T>?,
+    internal var value: T,
+    internal var next: Node<T>?
 ) {
     override fun toString() = "previous = ${previous?.value}; current = $value; next = ${next?.value}"
 }
-
-internal typealias Node<T> = DoublyLinkedListNode<T>
 
 /**
  * A personal implementation of the DoublyLinkedList data structure
