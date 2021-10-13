@@ -1,7 +1,5 @@
 package extensions.stack
 
-import module03.linkedList
-
 internal typealias Node<T> = StackNode<T>
 
 class EmptyStackException(): IndexOutOfBoundsException("You are trying to pop from an empty stack")
