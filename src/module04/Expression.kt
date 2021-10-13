@@ -5,6 +5,7 @@ import extensions.stack.linkedStackOf
 abstract class Symbol(val value: String) {
     override fun toString() = value
 }
+
 class OpeningParenthesis: Symbol("(")
 class ClosingParenthesis: Symbol(")")
 class Operator(value: String, val precedence: Int): Symbol(value)
@@ -43,8 +44,8 @@ fun String.splitToSymbols(): List<Symbol> {
 }
 
 fun calculate(firstOperand: Operand, secondOperand: Operand, operator: Operator): Operand {
-    val a = firstOperand.value.toInt()
-    val b = secondOperand.value.toInt()
+    val a = firstOperand.value.toDouble()
+    val b = secondOperand.value.toDouble()
     return Operand (when (operator.value) {
         "+" -> a + b
         "-" -> a - b
@@ -55,7 +56,7 @@ fun calculate(firstOperand: Operand, secondOperand: Operand, operator: Operator)
     }.toString())
 }
 
-fun List<Symbol>.evaluatePostfix(): Int {
+fun List<Symbol>.evaluatePostfix(): Double {
     val operandStack = linkedStackOf<Symbol>()
     for (symbol in this) {
         if (symbol is Operand) {
@@ -67,6 +68,6 @@ fun List<Symbol>.evaluatePostfix(): Int {
             operandStack.push(result)
         }
     }
-    return if (operandStack.size == 1) operandStack.pop().value.toInt()
+    return if (operandStack.size == 1) operandStack.pop().value.toDouble()
     else throw IllegalArgumentException("Invalid number of operands/operators.")
 }
