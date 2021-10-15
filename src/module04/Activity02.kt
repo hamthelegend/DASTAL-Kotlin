@@ -15,6 +15,6 @@ fun main() {
         println("Please enter your postfix expression: ")
         val input = readLine()!!
         if (input == "/exit") break
-        println(input.splitToSymbols().evaluatePostfix())
+        println(input.toExpression().evaluatePostfix())
     }
 }
