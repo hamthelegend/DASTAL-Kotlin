@@ -83,49 +83,53 @@ fun Expression.evaluatePostfix(): Double {
     else throw IllegalArgumentException("Invalid number of operands/operators.")
 }
 
-fun Expression.infixToPostfix(): Expression {
-    val infixSymbols = symbols
-    val operatorStack = linkedStackOf<Operator>()
-    val postfixExpression = mutableListOf<Symbol>()
-    for (symbol in infixSymbols) {
-        when {
-            symbol is Operand -> postfixExpression.add(symbol)
-            symbol is OpeningParenthesis -> operatorStack.push(symbol)
-            symbol is ClosingParenthesis -> {
-                var operator = operatorStack.pop()
-                while (operator !is OpeningParenthesis) {
-                    postfixExpression.add(operator)
-                    operator = operatorStack.pop()
-                }
-            }
-            symbol is Operator -> {
-                try {
-                    while (symbol.precedence <= operatorStack.check().precedence &&
-                        operatorStack.check() !is OpeningParenthesis
-                    ) {
-                        postfixExpression.add(operatorStack.pop())
-                    }
-                } catch (e: EmptyStackException) { }
-                operatorStack.push(symbol)
-            }
-        }
-    }
-    while (operatorStack.size > 0) {
-        postfixExpression.add(operatorStack.pop())
-    }
-    return Expression(postfixExpression)
-}
+/*
+Still broken.
+ */
 
-fun Expression.infixToPrefix(): Expression {
-    val reversedInfixSymbols = symbols.reversed().toMutableList()
-    reversedInfixSymbols.replaceAll {
-            operand -> if (operand is OpeningParenthesis) {
-        ClosingParenthesis()
-    } else if (operand is ClosingParenthesis) {
-        OpeningParenthesis()
-    } else operand
-    }
-    val postfixExpression = Expression(reversedInfixSymbols).infixToPostfix()
-    val prefixExpression = postfixExpression.symbols.reversed()
-    return Expression(prefixExpression)
-}
+//fun Expression.infixToPostfix(): Expression {
+//    val infixSymbols = symbols
+//    val operatorStack = linkedStackOf<Operator>()
+//    val postfixExpression = mutableListOf<Symbol>()
+//    for (symbol in infixSymbols) {
+//        when {
+//            symbol is Operand -> postfixExpression.add(symbol)
+//            symbol is OpeningParenthesis -> operatorStack.push(symbol)
+//            symbol is ClosingParenthesis -> {
+//                var operator = operatorStack.pop()
+//                while (operator !is OpeningParenthesis) {
+//                    postfixExpression.add(operator)
+//                    operator = operatorStack.pop()
+//                }
+//            }
+//            symbol is Operator -> {
+//                try {
+//                    while (symbol.precedence <= operatorStack.check().precedence &&
+//                        operatorStack.check() !is OpeningParenthesis
+//                    ) {
+//                        postfixExpression.add(operatorStack.pop())
+//                    }
+//                } catch (e: EmptyStackException) { }
+//                operatorStack.push(symbol)
+//            }
+//        }
+//    }
+//    while (operatorStack.size > 0) {
+//        postfixExpression.add(operatorStack.pop())
+//    }
+//    return Expression(postfixExpression)
+//}
+//
+//fun Expression.infixToPrefix(): Expression {
+//    val reversedInfixSymbols = symbols.reversed().toMutableList()
+//    reversedInfixSymbols.replaceAll {
+//            operand -> if (operand is OpeningParenthesis) {
+//        ClosingParenthesis()
+//    } else if (operand is ClosingParenthesis) {
+//        OpeningParenthesis()
+//    } else operand
+//    }
+//    val postfixExpression = Expression(reversedInfixSymbols).infixToPostfix()
+//    val prefixExpression = postfixExpression.symbols.reversed()
+//    return Expression(prefixExpression)
+//}
