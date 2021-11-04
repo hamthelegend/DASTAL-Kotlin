@@ -1,5 +1,12 @@
 package module05
 
+/*
+To run this program in command line, run these two commands:
+kotlinc -include-runtime -d mod05-activity02.jar src/module05/Activity02.kt src/extensions/doublylinkedlist/DoublyLinkedList.kt src/extensions/queue
+java -jar mod05-activity02.jar
+Note: make sure you have the latest Kotlin compiler and JRE installed
+*/
+
 import extensions.queue.queueOf
 
 fun main() {
