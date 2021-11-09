@@ -1,5 +1,7 @@
 package extensions
 
+import java.math.BigInteger
+
 fun <T> Array<T>.print(arrayName: String = "array", range: IntRange? = null) {
     if (range == null) {
         for ((index, element) in this.withIndex()) {
@@ -29,6 +31,12 @@ fun getArrayFromUser(arrayName: String = "array"): Array<Int> {
             println("That's not a number. Try again.")
         }
     }
+}
+
+fun BigInteger.factorial(): BigInteger = when {
+    this < BigInteger("0") -> throw IllegalArgumentException("Domain error")
+    this == BigInteger("0") || this == BigInteger("1") -> this
+    else -> this * (this - BigInteger("1")).factorial()
 }
 
 fun String.find(regex: Regex) = regex.find(this)?.value
